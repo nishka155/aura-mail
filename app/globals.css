@@ -1,26 +1,294 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-jakarta), 'Plus Jakarta Sans', system-ui, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ─── Base ─────────────────────────────────────────── */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+  background: #070b16;
+  font-family: 'Plus Jakarta Sans', var(--font-jakarta), system-ui, sans-serif;
+  color: rgba(255, 255, 255, 0.90);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ─── Scrollbar ─────────────────────────────────────── */
+
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+/* ─── Selection ─────────────────────────────────────── */
+
+::selection {
+  background: rgba(139, 92, 246, 0.35);
+  color: #fff;
+}
+
+/* ─── Animated background blobs ─────────────────────── */
+
+.bg-blob {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(100px);
+  pointer-events: none;
+  will-change: transform;
+}
+
+.bg-blob-1 {
+  width: 700px; height: 700px;
+  background: radial-gradient(circle, rgba(109, 40, 217, 0.55), transparent 70%);
+  top: -200px; left: -200px;
+  animation: drift1 22s ease-in-out infinite;
+}
+
+.bg-blob-2 {
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(37, 99, 235, 0.45), transparent 70%);
+  bottom: -150px; right: -150px;
+  animation: drift2 28s ease-in-out infinite;
+}
+
+.bg-blob-3 {
+  width: 450px; height: 450px;
+  background: radial-gradient(circle, rgba(236, 72, 153, 0.30), transparent 70%);
+  top: 10%; right: 10%;
+  animation: drift3 20s ease-in-out infinite;
+}
+
+.bg-blob-4 {
+  width: 350px; height: 350px;
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.22), transparent 70%);
+  bottom: 20%; left: 15%;
+  animation: drift4 25s ease-in-out infinite;
+}
+
+@keyframes drift1 {
+  0%, 100% { transform: translate(0px, 0px); }
+  33%       { transform: translate(80px, -60px); }
+  66%       { transform: translate(-50px, 90px); }
+}
+@keyframes drift2 {
+  0%, 100% { transform: translate(0px, 0px); }
+  40%       { transform: translate(-100px, -60px); }
+  70%       { transform: translate(60px, -100px); }
+}
+@keyframes drift3 {
+  0%, 100% { transform: translate(0px, 0px); }
+  50%       { transform: translate(-80px, 60px); }
+}
+@keyframes drift4 {
+  0%, 100% { transform: translate(0px, 0px); }
+  45%       { transform: translate(60px, -50px); }
+  80%       { transform: translate(-40px, 30px); }
+}
+
+/* ─── Liquid Glass panels ───────────────────────────── */
+
+.glass {
+  background: rgba(10, 14, 28, 0.62);
+  backdrop-filter: blur(32px) saturate(1.8);
+  -webkit-backdrop-filter: blur(32px) saturate(1.8);
+  border: 1px solid rgba(255, 255, 255, 0.075);
+  box-shadow:
+    0 8px 40px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+}
+
+.glass-sm {
+  background: rgba(255, 255, 255, 0.045);
+  backdrop-filter: blur(16px) saturate(1.6);
+  -webkit-backdrop-filter: blur(16px) saturate(1.6);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.glass-input {
+  background: rgba(255, 255, 255, 0.055);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  outline: none;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.glass-input:focus {
+  background: rgba(255, 255, 255, 0.075);
+  border-color: rgba(139, 92, 246, 0.5);
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.12);
+}
+
+.glass-btn {
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  transition: background 0.15s, border-color 0.15s, transform 0.15s;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.glass-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.16);
+  transform: translateY(-1px);
+}
+
+.glass-btn:active { transform: translateY(0); }
+
+.glass-btn-accent {
+  background: rgba(139, 92, 246, 0.85);
+  border: 1px solid rgba(167, 139, 250, 0.4);
+  color: #fff;
+  font-weight: 600;
+  transition: background 0.15s, transform 0.15s, box-shadow 0.15s;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(139, 92, 246, 0.35);
+}
+
+.glass-btn-accent:hover {
+  background: rgba(139, 92, 246, 1);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 28px rgba(139, 92, 246, 0.50);
+}
+
+.glass-btn-accent:active { transform: translateY(0); }
+
+/* ─── Email row states ───────────────────────────────── */
+
+.email-row {
+  transition: background 0.15s;
+  cursor: pointer;
+  border-radius: 12px;
+  position: relative;
+}
+
+.email-row:hover { background: rgba(255, 255, 255, 0.04); }
+
+.email-row.selected { background: rgba(139, 92, 246, 0.14) !important; }
+
+.email-row.selected::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 8px; bottom: 8px;
+  width: 3px;
+  background: linear-gradient(180deg, #a78bfa, #8b5cf6);
+  border-radius: 999px;
+}
+
+/* ─── Folder nav item ────────────────────────────────── */
+
+.folder-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 13px;
+  font-weight: 500;
+  transition: color 0.15s, background 0.15s;
+  position: relative;
+}
+
+.folder-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.80);
+}
+
+.folder-item.active {
+  color: rgba(255, 255, 255, 0.95);
+  background: rgba(139, 92, 246, 0.16);
+}
+
+/* ─── Label chips ────────────────────────────────────── */
+
+.label-chip {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: rgba(139, 92, 246, 0.18);
+  color: #c4b5fd;
+  border: 1px solid rgba(167, 139, 250, 0.2);
+  white-space: nowrap;
+}
+
+/* ─── Attachment chip ────────────────────────────────── */
+
+.attach-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.055);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.70);
+  transition: background 0.15s;
+  cursor: pointer;
+}
+
+.attach-chip:hover { background: rgba(255, 255, 255, 0.09); }
+
+/* ─── Shimmer placeholder ────────────────────────────── */
+
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0.04) 0%,
+    rgba(255,255,255,0.09) 50%,
+    rgba(255,255,255,0.04) 100%
+  );
+  background-size: 400% 100%;
+  animation: shimmer 1.8s infinite;
+  border-radius: 6px;
+}
+
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ─── Compose textarea ───────────────────────────────── */
+
+.compose-textarea {
+  resize: none;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: rgba(255, 255, 255, 0.85);
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.compose-textarea::placeholder {
+  color: rgba(255, 255, 255, 0.28);
+}
+
+/* ─── Unread dot pulse ───────────────────────────────── */
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.5; }
+}
+
+.unread-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: #a78bfa;
+  flex-shrink: 0;
 }
